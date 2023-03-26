@@ -18,7 +18,7 @@ const ataquesDelJugador = document.getElementById("ataques-del-jugador")
 const ataquesDelEnemigo = document.getElementById("ataques-del-enemigo")
 const contenedorTarjetas = document.getElementById("contenedorTarjetas")
 const contenedorAtaques = document.getElementById("contenedorAtaques")
-
+//prueba subida de cambios
 let mokepones = []
 let ataqueJugador = []
 let ataqueEnemigo = []
@@ -280,4 +280,3 @@ function reiniciarJuego(){
 }
 
 window.addEventListener('load', iniciarJuego)
-//esto es una prueba de cmabios para github
