@@ -45,6 +45,7 @@ let vidasEnemigo = 3
 let mascotaEnemigo
 let mascotaJugador
 let lienzo = mapa.getContext("2d")
+let intervalo
 
 class Mokepon{
     constructor(nombre, imagen, vidas){
@@ -52,6 +53,14 @@ class Mokepon{
     this.imagen = imagen,
     this.vidas = vidas
     this.ataques = []
+    this.x = 20 //se agregan atributos de tamannio del mokepon
+    this.y = 30
+    this.ancho = 80
+    this.alto = 80
+    this.mapaFoto = new Image()
+    this.mapaFoto.src = imagen
+    this.velocidadX = 0
+    this.velocidadY = 0
     }
 }
 
@@ -115,18 +124,11 @@ function iniciarJuego() {
 
 function seleccionarMascotaJugador() {
     sectionSeleccionarMascota.style.display = "none"
-   // sectionSeleccionarAtaque.style.display = "flex"
-   let imagenGatito = new Image()
-   imagenGatito.src = gatito.imagen
-   sectionVerMapa.style.display = "flex"//canva
-   lienzo.drawImage(
-    imagenGatito,
-    20,
-    40,
-    100,
-    100,
 
-   )
+   // sectionSeleccionarAtaque.style.display = "flex"
+   
+   sectionVerMapa.style.display = "flex"//canva
+   intervalo = setInterval(pintarPersonaje, 50)
     
     // posible forma de eliminar el switch
     // function uwu(coso){
@@ -157,6 +159,42 @@ function seleccionarMascotaJugador() {
     extraerAtaques(mascotaJugador)
     seleccionarMascotaEnemigo()
 }
+
+function pintarPersonaje(){ //seagrega funcion que muestre personaje seleccionado en pantalla
+    gatito.x = gatito.x + gatito.velocidadX
+    gatito.y = gatito.y + gatito.velocidadY
+    lienzo.clearRect(0, 0, mapa.width, mapa.height)
+    lienzo.drawImage(
+        gatito.mapaFoto,
+        gatito.x,
+        gatito.y,
+        gatito.ancho,
+        gatito.alto
+        )
+}
+
+function moverArriba(){//se crea funcion que mueva al personaje 5px
+    gatito.velocidadY = -5
+    
+}
+function moverDerecha(){//se crea funcion que mueva al personaje 5px
+    gatito.velocidadX = + 5
+   
+}
+function moverAbajo(){//se crea funcion que mueva al personaje 5px
+    gatito.velocidadY = + 5
+    
+}
+function moverIzquierda(){//se crea funcion que mueva al personaje 5px
+    gatito.velocidadX = - 5
+    
+}
+
+function detenerMovimiento(){
+    gatito.velocidadX = 0
+    gatito.velocidadY = 0
+}
+
 
 function extraerAtaques(mascotaJugador){
     let ataques

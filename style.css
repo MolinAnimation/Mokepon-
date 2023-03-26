@@ -166,6 +166,9 @@ input:checked+label {
     border: 2px solid white;
 
 }
+#movimientos {
+    display: block;
+}
 
 @media (max-width: 376px){
     .tarjetas-de-ataques{
