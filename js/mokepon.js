@@ -18,7 +18,11 @@ const ataquesDelJugador = document.getElementById("ataques-del-jugador")
 const ataquesDelEnemigo = document.getElementById("ataques-del-enemigo")
 const contenedorTarjetas = document.getElementById("contenedorTarjetas")
 const contenedorAtaques = document.getElementById("contenedorAtaques")
-//prueba subida de cambios
+
+const sectionVerMapa = document.getElementById("ver-mapa")//canva
+const mapa = document.getElementById("mapa")//canva
+
+
 let mokepones = []
 let ataqueJugador = []
 let ataqueEnemigo = []
@@ -40,6 +44,7 @@ let vidasJugador = 3
 let vidasEnemigo = 3
 let mascotaEnemigo
 let mascotaJugador
+let lienzo = mapa.getContext("2d")
 
 class Mokepon{
     constructor(nombre, imagen, vidas){
@@ -86,6 +91,7 @@ function aleatorio (min, max){return Math.floor(Math.random()*(max - min +1) + m
 }
 
 function iniciarJuego() {
+    sectionVerMapa.style.display = "none"//canva
     sectionSeleccionarAtaque.style.display = "none"
     sectionMensajesOcultar.style.display = "none"
 
@@ -109,7 +115,19 @@ function iniciarJuego() {
 
 function seleccionarMascotaJugador() {
     sectionSeleccionarMascota.style.display = "none"
-    sectionSeleccionarAtaque.style.display = "flex"
+   // sectionSeleccionarAtaque.style.display = "flex"
+   let imagenGatito = new Image()
+   imagenGatito.src = gatito.imagen
+   sectionVerMapa.style.display = "flex"//canva
+   lienzo.drawImage(
+    imagenGatito,
+    20,
+    40,
+    100,
+    100,
+
+   )
+    
     // posible forma de eliminar el switch
     // function uwu(coso){
     //     if(coso.checked){

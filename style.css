@@ -155,6 +155,18 @@ input:checked+label {
     align-items: center;
     text-align:  center;
 }
+
+#ver-mapa {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#mapa{
+    border: 2px solid white;
+
+}
+
 @media (max-width: 376px){
     .tarjetas-de-ataques{
        flex-direction: column; 
