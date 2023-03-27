@@ -23,6 +23,7 @@ const sectionVerMapa = document.getElementById("ver-mapa");//canva
 const mapa = document.getElementById("mapa");//canva
 
 let mokepones = []
+let mokeponesEnemigo = []
 let ataqueJugador = []
 let ataqueEnemigo = []
 let indexAtaqueJugador
@@ -39,8 +40,6 @@ let botones = []
 let ataquesMokepon
 let victoriasJugador = 0
 let victoriasEnemigo = 0
-let vidasJugador = 3
-let vidasEnemigo = 3
 let mascotaEnemigo
 let mascotaJugador
 let lienzo = mapa.getContext("2d")
@@ -50,29 +49,42 @@ mapaBackground.src = "./assets/mokemap.png"
 let mascotaJugadorObjeto 
 
 class Mokepon{
-    constructor(nombre, imagen, vidas){
+    constructor(nombre, imagen, fotoMapa, x = 10, y = 10 ){
     this.nombre = nombre,
     this.imagen = imagen,
-    this.vidas = vidas
     this.ataques = []
-    this.x = 20 //se agregan atributos de tamannio del mokepon
-    this.y = 30
-    this.ancho = 80
-    this.alto = 80
+    this.x = x //se agregan atributos de tamannio del mokepon
+    this.y = y
+    this.ancho = 65
+    this.alto = 65
     this.mapaFoto = new Image()
-    this.mapaFoto.src = imagen
+    this.mapaFoto.src = fotoMapa
     this.velocidadX = 0
     this.velocidadY = 0
     }
+    pintarMokepon(){lienzo.drawImage(
+        this.mapaFoto,
+        this.x,
+        this.y,
+        this.ancho,
+        this.alto
+        )
+    }
+
+    
 }
 
-let perrito = new Mokepon("Perrito","./assets/mokepons_mokepon_hipodoge_attack.png", 3)
-let gatito = new Mokepon("Gatito", "./assets/mokepons_mokepon_capipepo_attack.png", 3)
-let ratilla = new Mokepon("Ratilla", "./assets/mokepons_mokepon_ratigueya_attack.png" ,3)
+let perrito = new Mokepon("Perrito","./assets/mokepons_mokepon_hipodoge_attack.png", "./assets/hipodoge.png")
+let gatito = new Mokepon("Gatito", "./assets/mokepons_mokepon_capipepo_attack.png",  "./assets/capipepo.png")
+let ratilla = new Mokepon("Ratilla", "./assets/mokepons_mokepon_ratigueya_attack.png" , "./assets/ratigueya.png")
+let perritoEnemigo = new Mokepon("Perrito","./assets/mokepons_mokepon_hipodoge_attack.png", "./assets/hipodoge.png",150, 95)
+let gatitoEnemigo = new Mokepon("Gatito", "./assets/mokepons_mokepon_capipepo_attack.png",  "./assets/capipepo.png", 80, 120)
+let ratillaEnemigo = new Mokepon("Ratilla", "./assets/mokepons_mokepon_ratigueya_attack.png" , "./assets/ratigueya.png", 200, 190)
 
 let listaDeAtaques = ["Agua", "Fuego", "Tierra"]
 
 mokepones.push(perrito, gatito, ratilla)
+mokeponesEnemigo.push(perritoEnemigo, gatitoEnemigo, ratillaEnemigo)
 
 perrito.ataques.push(
     {nombre : "💧",  id : "boton-agua"},
@@ -183,13 +195,12 @@ function pintarCanvas(){ //seagrega funcion que muestre personaje seleccionado e
         mapa.width,
         mapa.height
     )
-    lienzo.drawImage(
-        mascotaJugadorObjeto.mapaFoto,
-        mascotaJugadorObjeto.x,
-        mascotaJugadorObjeto.y,
-        mascotaJugadorObjeto.ancho,
-        mascotaJugadorObjeto.alto
-        )
+    mascotaJugadorObjeto.pintarMokepon()
+    perritoEnemigo.pintarMokepon()
+    gatitoEnemigo.pintarMokepon()
+    ratillaEnemigo.pintarMokepon()
+    
+    
 }
 
 function ObtenerObjetoMascota(){
