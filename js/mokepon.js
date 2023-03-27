@@ -125,9 +125,9 @@ function iniciarJuego() {
         `
         contenedorTarjetas.innerHTML += opcionDeMokepones
 
-       input1 = document.getElementById(mokepones[0].nombre)//esto se pegaba del id "Perrito" hay que verificar si funciona asi 
-       input2 = document.getElementById(mokepones[1].nombre)
-       input3 = document.getElementById(mokepones[2].nombre)
+    input1 = document.getElementById(mokepones[0].nombre)//esto se pegaba del id "Perrito" hay que verificar si funciona asi 
+    input2 = document.getElementById(mokepones[1].nombre)
+    input3 = document.getElementById(mokepones[2].nombre)
     })
 
     botonMascotaJugador.addEventListener('click', seleccionarMascotaJugador)
@@ -138,10 +138,7 @@ function seleccionarMascotaJugador() {
     sectionSeleccionarMascota.style.display = "none"
 
    // sectionSeleccionarAtaque.style.display = "flex"
-   
-   sectionVerMapa.style.display = "flex"//canva
-   
-  
+    sectionVerMapa.style.display = "flex"//canva
     
     // posible forma de eliminar el switch
     // function uwu(coso){
@@ -179,7 +176,7 @@ function iniciarMapa(){
     mapa.width =500
     mapa.height = 350
     intervalo = setInterval(pintarCanvas, 50)
-     window.addEventListener("keydown", presionTecla)
+    window.addEventListener("keydown", presionTecla)
     window.addEventListener("keyup", detenerMovimiento)
 }
 
@@ -199,7 +196,13 @@ function pintarCanvas(){ //seagrega funcion que muestre personaje seleccionado e
     perritoEnemigo.pintarMokepon()
     gatitoEnemigo.pintarMokepon()
     ratillaEnemigo.pintarMokepon()
-    
+    if (
+        mascotaJugadorObjeto.velocidadX !==0 || 
+        mascotaJugadorObjeto.velocidadY !== 0){
+            colisiones(perritoEnemigo)
+            colisiones(gatitoEnemigo)
+            colisiones(ratillaEnemigo)
+    }
     
 }
 
@@ -218,7 +221,6 @@ function moverArriba(){
 }
 function moverDerecha(){
     mascotaJugadorObjeto.velocidadX = + 5
-   
 }
 function moverAbajo(){
     mascotaJugadorObjeto.velocidadY = + 5
@@ -244,7 +246,7 @@ function presionTecla(e){
         case "a":
             moverIzquierda()
             break;
-         case "d":
+        case "d":
             moverDerecha()
             break;
         default:
@@ -339,17 +341,22 @@ function combate(){
             indexOponentes(i,i)
             resultadoCombate = "Empate"
             
-        }else if((ataqueJugador[i] == "FUEGO"  && ataqueEnemigo[i] == "TIERRA" )||(ataqueJugador[i] == "AGUA" && ataqueEnemigo[i] == "FUEGO" )||(ataqueJugador[i] == "TIERRA"  && ataqueEnemigo[i] == "AGUA" )){
-            indexOponentes(i,i)
-            resultadoCombate = "Ganaste"
-            victoriasJugador ++
-            spanVidasJugador.innerHTML = victoriasJugador
-        }else if((ataqueJugador[i] == "TIERRA"  && ataqueEnemigo[i] == "FUEGO" )||(ataqueJugador[i] == "FUEGO" && ataqueEnemigo[i] == "AGUA" )||(ataqueJugador[i] == "AGUA"  && ataqueEnemigo[i] == "TIERRA" )){
-            indexOponentes(i,i)
-            resultadoCombate = "Perdiste"
-            victoriasEnemigo ++
-            spanVidasEnemigo.innerHTML = victoriasEnemigo
-          
+        }else if(
+            (ataqueJugador[i] == "FUEGO"  && ataqueEnemigo[i] == "TIERRA" )||
+            (ataqueJugador[i] == "AGUA" && ataqueEnemigo[i] == "FUEGO" )||
+            (ataqueJugador[i] == "TIERRA"  && ataqueEnemigo[i] == "AGUA" )){
+                indexOponentes(i,i)
+                resultadoCombate = "Ganaste"
+                victoriasJugador ++
+                spanVidasJugador.innerHTML = victoriasJugador
+        }else if(
+            (ataqueJugador[i] == "TIERRA"  && ataqueEnemigo[i] == "FUEGO" )||
+            (ataqueJugador[i] == "FUEGO" && ataqueEnemigo[i] == "AGUA" )||
+            (ataqueJugador[i] == "AGUA"  && ataqueEnemigo[i] == "TIERRA" )){
+                indexOponentes(i,i)
+                resultadoCombate = "Perdiste"
+                victoriasEnemigo ++
+                spanVidasEnemigo.innerHTML = victoriasEnemigo     
         }
         crearMensaje(resultadoCombate);
     }   
@@ -388,6 +395,28 @@ function crearMensajeFinal(resultadoFinal){
 
 function reiniciarJuego(){
     location.reload()
+}
+function colisiones(enemigo){
+    const arribaEnemigo = enemigo.y
+    const abajoEnemigo = enemigo.y + enemigo.alto
+    const derechaEnemigo = enemigo.x + enemigo.ancho
+    const izquierdaEnemigo = enemigo.x
+
+    const arribaJugador = mascotaJugadorObjeto.y
+    const abajoJugador = mascotaJugadorObjeto.y + mascotaJugadorObjeto.alto
+    const derechaJugador = mascotaJugadorObjeto.x + mascotaJugadorObjeto.ancho
+    const izquierdaJugador = mascotaJugadorObjeto.x
+
+    if (
+        abajoJugador < arribaEnemigo ||
+        arribaJugador > abajoEnemigo ||
+        derechaJugador < izquierdaEnemigo ||
+        izquierdaJugador > derechaEnemigo 
+    ) {
+        return 
+    } 
+    detenerMovimiento()
+    alert ("Hubo una colision " + enemigo.nombre)
 }
 
 window.addEventListener('load', iniciarJuego)
