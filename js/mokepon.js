@@ -1,27 +1,26 @@
 const sectionSeleccionarAtaque = document.getElementById("seleccionar-ataque");
-const sectionMensajesOcultar = document.getElementById("reiniciar");
-const botonMascotaJugador = document.getElementById('boton-mascota')
+const ocultarReiniciar = document.getElementById("reiniciar");
+const botonMascotaJugador = document.getElementById('boton-mascota');
 
 const botonReinciar = document.getElementById("boton-reiniciar");
 
-const sectionSeleccionarMascota = document.getElementById("seleccionar-mascota")
+const sectionSeleccionarMascota = document.getElementById("seleccionar-mascota");
 
-const spanMascotaJugador = document.getElementById("mascota-jugador")
+const spanMascotaJugador = document.getElementById("mascota-jugador");
 
-const spanMascotaEnemigo = document.getElementById("mascota-enemigo")
+const spanMascotaEnemigo = document.getElementById("mascota-enemigo");
 
-const spanVidasJugador = document.getElementById("vidasJugador")
-const spanVidasEnemigo = document.getElementById("vidasEnemigo")
+const spanVidasJugador = document.getElementById("vidasJugador");
+const spanVidasEnemigo = document.getElementById("vidasEnemigo");
 
-const sectionMensajes = document.getElementById("resultado")
-const ataquesDelJugador = document.getElementById("ataques-del-jugador")
-const ataquesDelEnemigo = document.getElementById("ataques-del-enemigo")
-const contenedorTarjetas = document.getElementById("contenedorTarjetas")
-const contenedorAtaques = document.getElementById("contenedorAtaques")
+const sectionMensajes = document.getElementById("resultado");
+const ataquesDelJugador = document.getElementById("ataques-del-jugador");
+const ataquesDelEnemigo = document.getElementById("ataques-del-enemigo");
+const contenedorTarjetas = document.getElementById("contenedorTarjetas");
+const contenedorAtaques = document.getElementById("contenedorAtaques");
 
-const sectionVerMapa = document.getElementById("ver-mapa")//canva
-const mapa = document.getElementById("mapa")//canva
-
+const sectionVerMapa = document.getElementById("ver-mapa");//canva
+const mapa = document.getElementById("mapa");//canva
 
 let mokepones = []
 let ataqueJugador = []
@@ -94,15 +93,13 @@ ratilla.ataques.push(
     {nombre : "🌱",  id : "boton-tierra"},  
 )
 
-
-
 function aleatorio (min, max){return Math.floor(Math.random()*(max - min +1) + min)
 }
 
 function iniciarJuego() {
     sectionVerMapa.style.display = "none"//canva
     sectionSeleccionarAtaque.style.display = "none"
-    sectionMensajesOcultar.style.display = "none"
+    ocultarReiniciar.style.display = "none"
 
     mokepones.forEach((mokepon) => {opcionDeMokepones =`
     <input  type="radio" name="mascota" id= ${mokepon.nombre} />
@@ -113,9 +110,9 @@ function iniciarJuego() {
         `
         contenedorTarjetas.innerHTML += opcionDeMokepones
 
-       input1 = document.getElementById('Perrito')
-       input2 = document.getElementById('Gatito')
-       input3 = document.getElementById('Ratilla')
+       input1 = document.getElementById(mokepones[0].nombre)//esto se pegaba del id "Perrito" hay que verificar si funciona asi 
+       input2 = document.getElementById(mokepones[1].nombre)
+       input3 = document.getElementById(mokepones[2].nombre)
     })
 
     botonMascotaJugador.addEventListener('click', seleccionarMascotaJugador)
@@ -128,7 +125,8 @@ function seleccionarMascotaJugador() {
    // sectionSeleccionarAtaque.style.display = "flex"
    
    sectionVerMapa.style.display = "flex"//canva
-   intervalo = setInterval(pintarPersonaje, 50)
+   
+  iniciarMapa()
     
     // posible forma de eliminar el switch
     // function uwu(coso){
@@ -142,11 +140,11 @@ function seleccionarMascotaJugador() {
     switch (true){
         case input1.checked:
             spanMascotaJugador.innerHTML = input1.id
-            mascotaJugador = input1.id
+            mascotaJugador = input1.id       
             break;
         case input2.checked:
             spanMascotaJugador.innerHTML = input2.id
-            mascotaJugador = input2.id
+            mascotaJugador = input2.id       
             break;
         case input3.checked:
             spanMascotaJugador.innerHTML = input3.id
@@ -158,6 +156,14 @@ function seleccionarMascotaJugador() {
     }
     extraerAtaques(mascotaJugador)
     seleccionarMascotaEnemigo()
+}
+
+function iniciarMapa(){
+    mapa.width =800
+    mapa.height = 600
+    intervalo = setInterval(pintarPersonaje, 50)
+     window.addEventListener("keydown", presionTecla)
+    window.addEventListener("keyup", detenerMovimiento)
 }
 
 function pintarPersonaje(){ //seagrega funcion que muestre personaje seleccionado en pantalla
@@ -173,28 +179,45 @@ function pintarPersonaje(){ //seagrega funcion que muestre personaje seleccionad
         )
 }
 
-function moverArriba(){//se crea funcion que mueva al personaje 5px
+function moverArriba(){
     gatito.velocidadY = -5
     
 }
-function moverDerecha(){//se crea funcion que mueva al personaje 5px
+function moverDerecha(){
     gatito.velocidadX = + 5
    
 }
-function moverAbajo(){//se crea funcion que mueva al personaje 5px
+function moverAbajo(){
     gatito.velocidadY = + 5
     
 }
-function moverIzquierda(){//se crea funcion que mueva al personaje 5px
+function moverIzquierda(){
     gatito.velocidadX = - 5
-    
 }
 
-function detenerMovimiento(){
+function detenerMovimiento(){//se usa para parar el movimiento cuando se suelte el click
     gatito.velocidadX = 0
     gatito.velocidadY = 0
 }
 
+function presionTecla(e){
+    switch (e.key) {
+        case "w":
+            moverArriba()
+            break;
+        case "s":
+            moverAbajo()
+            break;
+        case "a":
+            moverIzquierda()
+            break;
+         case "d":
+            moverDerecha()
+            break;
+        default:
+            break;
+    }
+}
 
 function extraerAtaques(mascotaJugador){
     let ataques
@@ -237,7 +260,6 @@ function secuenciaAtaque() {
                 boton.style.display = "none"
             
             }
-            console.log(ataqueJugador + "j")
             ataqueAleatorioEnemigo()
         })
     })
@@ -253,7 +275,8 @@ function seleccionarMascotaEnemigo(){
     secuenciaAtaque()
 }
 
-function ataqueAleatorioEnemigo(){ 
+function ataqueAleatorioEnemigo(){ // esto esta mal planteado
+    //podria arreglarse utilizando tecnicas de DRY
   let ataqueAleatorio = aleatorio(0, ataquesMokeponEnemigo.length - 1)
   if (ataqueAleatorio == 0 || ataqueAleatorio == 1) {
     ataqueEnemigo.push ("FUEGO")
@@ -262,7 +285,6 @@ function ataqueAleatorioEnemigo(){
   } else if (ataqueAleatorio == 2 || ataqueAleatorio == 5) {
     ataqueEnemigo.push("TIERRA")
   }
-  console.log(ataqueEnemigo + "e")
     iniciarPelea()
 }
 
@@ -327,7 +349,7 @@ function revisarVidas(){
 }
 
 function crearMensajeFinal(resultadoFinal){
-    sectionMensajesOcultar.style.display = "block"
+    ocultarReiniciar.style.display = "block"
     sectionMensajes.innerHTML = resultadoFinal
 }
 
