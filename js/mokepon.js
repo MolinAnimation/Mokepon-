@@ -45,6 +45,9 @@ let mascotaEnemigo
 let mascotaJugador
 let lienzo = mapa.getContext("2d")
 let intervalo
+let mapaBackground = new Image()
+mapaBackground.src = "./assets/mokemap.png"
+let mascotaJugadorObjeto 
 
 class Mokepon{
     constructor(nombre, imagen, vidas){
@@ -126,7 +129,7 @@ function seleccionarMascotaJugador() {
    
    sectionVerMapa.style.display = "flex"//canva
    
-  iniciarMapa()
+  
     
     // posible forma de eliminar el switch
     // function uwu(coso){
@@ -154,50 +157,69 @@ function seleccionarMascotaJugador() {
             alert("Selecciona una mascota")
             reiniciarJuego()
     }
+    iniciarMapa()
     extraerAtaques(mascotaJugador)
     seleccionarMascotaEnemigo()
 }
 
 function iniciarMapa(){
-    mapa.width =800
-    mapa.height = 600
-    intervalo = setInterval(pintarPersonaje, 50)
+    mascotaJugadorObjeto = ObtenerObjetoMascota()
+    mapa.width =500
+    mapa.height = 350
+    intervalo = setInterval(pintarCanvas, 50)
      window.addEventListener("keydown", presionTecla)
     window.addEventListener("keyup", detenerMovimiento)
 }
 
-function pintarPersonaje(){ //seagrega funcion que muestre personaje seleccionado en pantalla
-    gatito.x = gatito.x + gatito.velocidadX
-    gatito.y = gatito.y + gatito.velocidadY
+function pintarCanvas(){ //seagrega funcion que muestre personaje seleccionado en pantalla
+
+    mascotaJugadorObjeto.x = mascotaJugadorObjeto.x + mascotaJugadorObjeto.velocidadX
+    mascotaJugadorObjeto.y = mascotaJugadorObjeto.y + mascotaJugadorObjeto.velocidadY
     lienzo.clearRect(0, 0, mapa.width, mapa.height)
     lienzo.drawImage(
-        gatito.mapaFoto,
-        gatito.x,
-        gatito.y,
-        gatito.ancho,
-        gatito.alto
+        mapaBackground,
+        0,
+        0,
+        mapa.width,
+        mapa.height
+    )
+    lienzo.drawImage(
+        mascotaJugadorObjeto.mapaFoto,
+        mascotaJugadorObjeto.x,
+        mascotaJugadorObjeto.y,
+        mascotaJugadorObjeto.ancho,
+        mascotaJugadorObjeto.alto
         )
 }
 
+function ObtenerObjetoMascota(){
+    for (let i = 0; i < mokepones.length; i++) {
+        if (mascotaJugador === mokepones[i].nombre){
+            return mokepones[i]
+        }
+        
+    }
+}
+
 function moverArriba(){
-    gatito.velocidadY = -5
+    mascotaJugadorObjeto.velocidadY = -5
     
 }
 function moverDerecha(){
-    gatito.velocidadX = + 5
+    mascotaJugadorObjeto.velocidadX = + 5
    
 }
 function moverAbajo(){
-    gatito.velocidadY = + 5
+    mascotaJugadorObjeto.velocidadY = + 5
     
 }
 function moverIzquierda(){
-    gatito.velocidadX = - 5
+    mascotaJugadorObjeto.velocidadX = - 5
 }
 
 function detenerMovimiento(){//se usa para parar el movimiento cuando se suelte el click
-    gatito.velocidadX = 0
-    gatito.velocidadY = 0
+    mascotaJugadorObjeto.velocidadX = 0
+    mascotaJugadorObjeto.velocidadY = 0
 }
 
 function presionTecla(e){
