@@ -166,14 +166,14 @@ input:checked+label {
     display: block;
 }
 
-@media (max-width: 360px){
+@media (max-width: 560px){
     .tarjetas-de-ataques{
-       flex-direction: column; 
-       gap: 1px;
+        flex-direction: column; 
+        gap: 1px;
     }
     .tarjetas {
         flex-direction: column; 
-       gap: 20px;
+        gap: 20px;
     }
     .tarjeta-de-mokepon{
         width: 100px;
