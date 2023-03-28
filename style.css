@@ -162,15 +162,11 @@ input:checked+label {
     justify-content: center;
 }
 
-#mapa{
-    border: 2px solid white;
-
-}
 #movimientos {
     display: block;
 }
 
-@media (max-width: 376px){
+@media (max-width: 360px){
     .tarjetas-de-ataques{
        flex-direction: column; 
        gap: 1px;
